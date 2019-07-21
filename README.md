@@ -131,7 +131,26 @@ PHP 版本:
  define("APP_SECRET","abcdef123456");
  get_sign(array("type"=>"json"),APP_SECRET);
 ```
+然后你会发现上面那个是错的，这里贴个正确的
+```
+function get_sign($params, $app_key, $secret_key)
+    {
+        $_data = array();
+        $params['appkey'] = $app_key;
 
+        ksort($params);
+        reset($params);
+
+        foreach ($params as $k => $v) {
+            $_data[] = $k . '=' . urlencode($v);
+        }
+        $_sign = implode('&', $_data);
+        return array(
+            'sign' => strtolower(md5($_sign . $secret_key)),
+            'params' => $_sign,
+        );
+    }
+  ```
 JS 版本:
 
 ```
@@ -156,3 +175,18 @@ JS 版本:
  	};
  }
 ```
+python版本：
+```
+def GetSign(params, appkey, AppSecret=None):
+    params['appkey'] = appkey
+    data = ""
+    paras = params.keys()
+    paras.sort()
+    data = urllib.urlencode(params)
+    print(data)
+    if AppSecret == None:
+        return data
+    m = hashlib.md5()
+    m.update(data + AppSecret)
+    return data + '&sign=' + m.hexdigest()
+ ```

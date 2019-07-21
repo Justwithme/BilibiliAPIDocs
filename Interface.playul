@@ -1,0 +1,2 @@
+调用链接http://interface.bilibili.tv/playurl
+调用方式：:http://interface.bilibili.tv/playurl?platform=android&cid=’从view接口取得的cid‘&appkey=’你的appkey‘&quality=‘ 清晰度1,2’&type=mp4
